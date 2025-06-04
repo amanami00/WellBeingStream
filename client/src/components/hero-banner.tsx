@@ -58,10 +58,6 @@ export default function HeroBanner({ documentary }: HeroBannerProps) {
           <span className="text-netflix-gray">
             {new Date(documentary.publishedAt).getFullYear()}
           </span>
-          <div className="flex items-center space-x-1">
-            <Star className="h-4 w-4 text-yellow-400 fill-current" />
-            <span className="text-sm">{formatRating(documentary.rating)}</span>
-          </div>
         </div>
         
         <div className="flex items-center space-x-4">

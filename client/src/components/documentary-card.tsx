@@ -1,4 +1,4 @@
-import { Play, Star } from "lucide-react";
+import { Play } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useLocation } from "wouter";
 import { formatDuration, formatRating } from "@/lib/youtube";
@@ -55,13 +55,6 @@ export default function DocumentaryCard({ documentary }: DocumentaryCardProps) {
         <span className="text-netflix-gray text-xs capitalize">
           {documentary.category}
         </span>
-        
-        <div className="flex items-center space-x-1">
-          <Star className="h-3 w-3 text-yellow-400 fill-current" />
-          <span className="text-xs text-netflix-gray">
-            {formatRating(documentary.rating)}
-          </span>
-        </div>
       </div>
     </div>
   );

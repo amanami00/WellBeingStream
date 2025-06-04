@@ -20,6 +20,8 @@ export const documentaries = pgTable("documentaries", {
   featured: boolean("featured").default(false),
   rating: integer("rating").default(5), // 1-5 scale
   publishedAt: text("published_at").notNull(),
+  viewCount: integer("view_count").default(0),
+  viewCountLastUpdated: text("view_count_last_updated"),
 });
 
 export const usersRelations = relations(users, ({ many }) => ({

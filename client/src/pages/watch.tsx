@@ -107,10 +107,7 @@ export default function Watch() {
               <Badge variant="outline" className="capitalize border-netflix-gray text-netflix-gray">
                 {documentary.category}
               </Badge>
-              <div className="flex items-center space-x-1">
-                <span className="text-yellow-400">★</span>
-                <span>{formatRating(documentary.rating)}</span>
-              </div>
+
             </div>
 
             <p className="text-lg text-netflix-gray leading-relaxed mb-8">
@@ -166,10 +163,7 @@ export default function Watch() {
                     {new Date(documentary.publishedAt).toLocaleDateString()}
                   </span>
                 </div>
-                <div>
-                  <span className="font-medium">Rating:</span> 
-                  <span className="ml-2">{formatRating(documentary.rating)}/5</span>
-                </div>
+
               </div>
             </div>
           </div>
