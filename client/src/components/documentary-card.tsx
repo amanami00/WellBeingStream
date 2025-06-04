@@ -20,7 +20,7 @@ export default function DocumentaryCard({ documentary }: DocumentaryCardProps) {
       className="group cursor-pointer card-hover"
       onClick={handleClick}
     >
-      <div className="relative bg-netflix-dark rounded-lg overflow-hidden aspect-[3/4] mb-3">
+      <div className="relative bg-netflix-dark rounded-lg overflow-hidden aspect-video mb-3">
         <img 
           src={documentary.thumbnail}
           alt={`${documentary.title} thumbnail`}
