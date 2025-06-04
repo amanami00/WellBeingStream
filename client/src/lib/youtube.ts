@@ -7,7 +7,7 @@ export const getYouTubeThumbnail = (videoId: string, quality: 'default' | 'hqdef
 };
 
 export const formatDuration = (minutes: number | null): string => {
-  if (minutes === null || minutes === undefined) {
+  if (minutes === null || minutes === undefined || isNaN(minutes)) {
     return "N/A";
   }
   
@@ -26,7 +26,7 @@ export const formatDuration = (minutes: number | null): string => {
 };
 
 export const formatRating = (rating: number | null): string => {
-  if (rating === null || rating === undefined) {
+  if (rating === null || rating === undefined || isNaN(rating)) {
     return "N/A";
   }
   return rating.toFixed(1);
