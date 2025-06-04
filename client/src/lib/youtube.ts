@@ -6,7 +6,11 @@ export const getYouTubeThumbnail = (videoId: string, quality: 'default' | 'hqdef
   return `https://img.youtube.com/vi/${videoId}/${quality}.jpg`;
 };
 
-export const formatDuration = (minutes: number): string => {
+export const formatDuration = (minutes: number | null): string => {
+  if (minutes === null || minutes === undefined) {
+    return "N/A";
+  }
+  
   if (minutes < 60) {
     return `${minutes} min`;
   }
@@ -21,6 +25,9 @@ export const formatDuration = (minutes: number): string => {
   return `${hours}h ${remainingMinutes}m`;
 };
 
-export const formatRating = (rating: number): string => {
+export const formatRating = (rating: number | null): string => {
+  if (rating === null || rating === undefined) {
+    return "N/A";
+  }
   return rating.toFixed(1);
 };
