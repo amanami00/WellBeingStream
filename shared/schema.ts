@@ -1,4 +1,5 @@
 import { pgTable, text, serial, integer, boolean } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -20,6 +21,14 @@ export const documentaries = pgTable("documentaries", {
   rating: integer("rating").default(5), // 1-5 scale
   publishedAt: text("published_at").notNull(),
 });
+
+export const usersRelations = relations(users, ({ many }) => ({
+  // Add any relations if needed in the future
+}));
+
+export const documentariesRelations = relations(documentaries, ({ one }) => ({
+  // Add any relations if needed in the future
+}));
 
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
