@@ -37,3 +37,18 @@ export function useDocumentary(id: number) {
     enabled: !!id,
   });
 }
+
+export function useCategories() {
+  return useQuery<string[]>({
+    queryKey: ["/api/categories"],
+    queryFn: async () => {
+      const response = await fetch("/api/categories");
+      
+      if (!response.ok) {
+        throw new Error("Failed to fetch categories");
+      }
+      
+      return response.json();
+    },
+  });
+}

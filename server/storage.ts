@@ -1,6 +1,6 @@
 import { users, documentaries, type User, type InsertUser, type Documentary, type InsertDocumentary } from "@shared/schema";
 import { db } from "./db";
-import { eq, ilike, or, desc } from "drizzle-orm";
+import { eq, ilike, or, desc, sql } from "drizzle-orm";
 
 export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
@@ -13,6 +13,7 @@ export interface IStorage {
   getFeaturedDocumentary(): Promise<Documentary | undefined>;
   searchDocumentaries(query: string): Promise<Documentary[]>;
   createDocumentary(documentary: InsertDocumentary): Promise<Documentary>;
+  getCategories(): Promise<string[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -211,6 +212,15 @@ export class DatabaseStorage implements IStorage {
       .values(insertDocumentary)
       .returning();
     return documentary;
+  }
+
+  async getCategories(): Promise<string[]> {
+    const result = await db
+      .selectDistinct({ category: documentaries.category })
+      .from(documentaries);
+    
+    const categories = result.map(row => row.category).sort();
+    return ['all', ...categories];
   }
 }
 

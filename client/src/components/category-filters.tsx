@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { categories } from "@shared/schema";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useCategories } from "@/hooks/use-documentaries";
 
 interface CategoryFiltersProps {
   selectedCategory: string;
@@ -10,7 +11,9 @@ export default function CategoryFilters({
   selectedCategory, 
   onCategoryChange 
 }: CategoryFiltersProps) {
-  const categoryLabels = {
+  const { data: categories, isLoading, error } = useCategories();
+
+  const categoryLabels: { [key: string]: string } = {
     all: "All",
     wellbeing: "Wellbeing",
     mindfulness: "Mindfulness",
@@ -18,6 +21,27 @@ export default function CategoryFilters({
     meditation: "Meditation",
     healing: "Healing",
   };
+
+  // Helper function to format category names
+  const formatCategoryName = (category: string) => {
+    return categoryLabels[category] || category.charAt(0).toUpperCase() + category.slice(1);
+  };
+
+  if (isLoading) {
+    return (
+      <section className="container mx-auto px-6 py-8">
+        <div className="flex items-center space-x-4 overflow-x-auto pb-4">
+          {[...Array(6)].map((_, i) => (
+            <Skeleton key={i} className="h-10 w-24 rounded-full" />
+          ))}
+        </div>
+      </section>
+    );
+  }
+
+  if (error || !categories) {
+    return null;
+  }
 
   return (
     <section className="container mx-auto px-6 py-8">
@@ -32,7 +56,7 @@ export default function CategoryFilters({
                 : "bg-netflix-dark hover:bg-opacity-80 text-white"
             }`}
           >
-            {categoryLabels[category]}
+            {formatCategoryName(category)}
           </Button>
         ))}
       </div>
