@@ -70,54 +70,43 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-netflix-black text-white">
-      <Header onSearch={handleSearch} />
+    <div className="min-h-screen bg-netflix-black text-white relative">
+      {/* Full-screen background banner */}
+      {featuredDoc && (
+        <div className="fixed inset-0 z-0">
+          <img 
+            src={featuredDoc.thumbnail}
+            alt={`${featuredDoc.title} background`}
+            className="w-full h-full object-cover"
+          />
+          {/* Gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/90" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-transparent to-black/40" />
+        </div>
+      )}
       
-      <main className="pt-20">
-        {/* Hero Banner */}
-        {isFeaturedLoading ? (
-          <section className="relative h-screen flex items-center">
-            <div className="absolute inset-0 bg-netflix-dark" />
-            <div className="relative container mx-auto px-6 max-w-2xl">
-              <Skeleton className="h-16 w-3/4 mb-4 bg-netflix-dark" />
-              <Skeleton className="h-6 w-full mb-2 bg-netflix-dark" />
-              <Skeleton className="h-6 w-2/3 mb-6 bg-netflix-dark" />
-              <div className="flex space-x-4">
-                <Skeleton className="h-12 w-24 bg-netflix-dark" />
-                <Skeleton className="h-12 w-32 bg-netflix-dark" />
-                <Skeleton className="h-12 w-32 bg-netflix-dark" />
-              </div>
-            </div>
-          </section>
-        ) : featuredError ? (
-          <section className="relative h-screen flex items-center bg-netflix-dark">
-            <div className="relative container mx-auto px-6 max-w-2xl">
-              <h2 className="text-5xl font-bold mb-4">Featured Content Unavailable</h2>
-              <p className="text-lg text-netflix-gray mb-6">
-                We're having trouble loading the featured documentary. Please check back later.
-              </p>
-            </div>
-          </section>
-        ) : featuredDoc ? (
-          <HeroBanner documentary={featuredDoc} />
-        ) : null}
+      {/* Content layer */}
+      <div className="relative z-10">
+        <Header onSearch={handleSearch} />
+        
+        <main className="pt-20">
+          {/* Category Filters */}
+          <CategoryFilters 
+            selectedCategory={selectedCategory}
+            onCategoryChange={handleCategoryChange}
+          />
 
-        {/* Category Filters */}
-        <CategoryFilters 
-          selectedCategory={selectedCategory}
-          onCategoryChange={handleCategoryChange}
-        />
+          {/* Documentary Grid */}
+          <DocumentaryGrid
+            documentaries={documentaries}
+            title={getGridTitle()}
+            isLoading={isDocsLoading}
+            error={docsError?.message}
+          />
+        </main>
 
-        {/* Documentary Grid */}
-        <DocumentaryGrid
-          documentaries={documentaries}
-          title={getGridTitle()}
-          isLoading={isDocsLoading}
-          error={docsError?.message}
-        />
-      </main>
-
-      <Footer />
+        <Footer />
+      </div>
     </div>
   );
 }
