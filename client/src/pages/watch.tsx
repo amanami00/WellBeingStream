@@ -102,7 +102,7 @@ export default function Watch() {
                 {formatDuration(documentary.duration)}
               </Badge>
               <span className="text-netflix-gray">
-                {new Date(documentary.publishedAt).getFullYear()}
+                {documentary.publishedAt ? new Date(documentary.publishedAt).getFullYear() : 'N/A'}
               </span>
               <Badge variant="outline" className="capitalize border-netflix-gray text-netflix-gray">
                 {documentary.category}
