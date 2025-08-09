@@ -103,7 +103,7 @@ export default function Home() {
             {/* Background image that scrolls with page */}
             <div className="absolute inset-0 z-0">
               <img 
-                src={featuredDoc.thumbnail}
+                src={featuredDoc.thumbnailUrl}
                 alt={`${featuredDoc.title} background`}
                 className="w-full h-full object-cover"
               />

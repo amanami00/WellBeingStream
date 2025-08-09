@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Documentary } from "@shared/schema";
+import { Documentary } from "../types/schema";
 
 export function useDocumentaries(category?: string, search?: string) {
   return useQuery<Documentary[]>({

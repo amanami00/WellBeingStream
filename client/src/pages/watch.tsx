@@ -99,10 +99,10 @@ export default function Watch() {
             
             <div className="flex items-center space-x-4 mb-6">
               <Badge className="bg-netflix-red hover:bg-netflix-red text-white">
-                {formatDuration(documentary.duration)}
+                {formatDuration(documentary.duration ?? null)}
               </Badge>
               <span className="text-netflix-gray">
-                {documentary.publishedAt ? new Date(documentary.publishedAt).getFullYear() : 'N/A'}
+                {documentary.createdAt ? new Date(documentary.createdAt).getFullYear() : 'N/A'}
               </span>
               <Badge variant="outline" className="capitalize border-netflix-gray text-netflix-gray">
                 {documentary.category}
@@ -155,12 +155,12 @@ export default function Watch() {
                 </div>
                 <div>
                   <span className="font-medium">Duration:</span> 
-                  <span className="ml-2">{formatDuration(documentary.duration)}</span>
+                  <span className="ml-2">{formatDuration(documentary.duration ?? null)}</span>
                 </div>
                 <div>
                   <span className="font-medium">Published:</span> 
                   <span className="ml-2">
-                    {new Date(documentary.publishedAt).toLocaleDateString()}
+                    {documentary.createdAt ? new Date(documentary.createdAt).toLocaleDateString() : 'N/A'}
                   </span>
                 </div>
 

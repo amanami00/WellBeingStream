@@ -219,9 +219,108 @@ export class DatabaseStorage implements IStorage {
       .selectDistinct({ category: documentaries.category })
       .from(documentaries);
     
-    const categories = result.map(row => row.category).sort();
+    const categories = result.map((row: { category: string }) => row.category).sort();
     return ['all', ...categories];
   }
 }
 
-export const storage = new DatabaseStorage();
+// Mock storage for development when no database is available
+class MockStorage implements IStorage {
+  private documentaries: Documentary[] = [
+    {
+      id: 1,
+      title: "Finding Inner Peace",
+      description: "A transformative 18-minute journey exploring mindfulness practices that have helped thousands find clarity and emotional balance in our chaotic world.",
+      youtubeId: "inpok4MKVLM",
+      thumbnail: "https://img.youtube.com/vi/inpok4MKVLM/maxresdefault.jpg",
+      duration: 18,
+      category: "mindfulness",
+      featured: true,
+      rating: 5,
+      publishedAt: "2024-01-15",
+      viewCount: 0,
+      viewCountLastUpdated: null
+    },
+    {
+      id: 2,
+      title: "The Art of Breathing",
+      description: "Ancient breathing techniques for modern stress relief",
+      youtubeId: "YRPh_GaiL8s",
+      thumbnail: "https://img.youtube.com/vi/YRPh_GaiL8s/maxresdefault.jpg",
+      duration: 15,
+      category: "wellbeing",
+      featured: false,
+      rating: 5,
+      publishedAt: "2024-01-10",
+      viewCount: 0,
+      viewCountLastUpdated: null
+    }
+  ];
+
+  private users: User[] = [];
+
+  async getUser(id: number): Promise<User | undefined> {
+    return this.users.find(user => user.id === id);
+  }
+
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    return this.users.find(user => user.username === username);
+  }
+
+  async createUser(user: InsertUser): Promise<User> {
+    const newUser: User = {
+      id: this.users.length + 1,
+      ...user
+    };
+    this.users.push(newUser);
+    return newUser;
+  }
+
+  async getDocumentaries(): Promise<Documentary[]> {
+    return [...this.documentaries].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
+  }
+
+  async getDocumentary(id: number): Promise<Documentary | undefined> {
+    return this.documentaries.find(doc => doc.id === id);
+  }
+
+  async getDocumentariesByCategory(category: string): Promise<Documentary[]> {
+    if (category === "all") {
+      return this.getDocumentaries();
+    }
+    return this.documentaries.filter(doc => doc.category === category);
+  }
+
+  async getFeaturedDocumentary(): Promise<Documentary | undefined> {
+    return this.documentaries.find(doc => doc.featured);
+  }
+
+  async searchDocumentaries(query: string): Promise<Documentary[]> {
+    const lowerQuery = query.toLowerCase();
+    return this.documentaries.filter(doc => 
+      doc.title.toLowerCase().includes(lowerQuery) ||
+      doc.description.toLowerCase().includes(lowerQuery) ||
+      doc.category.toLowerCase().includes(lowerQuery)
+    );
+  }
+
+  async createDocumentary(documentary: InsertDocumentary): Promise<Documentary> {
+    const newDoc: Documentary = {
+      id: this.documentaries.length + 1,
+      viewCount: 0,
+      viewCountLastUpdated: null,
+      ...documentary,
+      featured: documentary.featured ?? false,
+      rating: documentary.rating ?? 5
+    };
+    this.documentaries.push(newDoc);
+    return newDoc;
+  }
+
+  async getCategories(): Promise<string[]> {
+    const categories = Array.from(new Set(this.documentaries.map(doc => doc.category))).sort();
+    return ['all', ...categories];
+  }
+}
+
+export const storage = db ? new DatabaseStorage() : new MockStorage();

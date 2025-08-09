@@ -1,4 +1,4 @@
-import { Documentary } from "@shared/schema";
+import { Documentary } from "@/types/schema";
 import DocumentaryCard from "./documentary-card";
 import { Skeleton } from "@/components/ui/skeleton";
 

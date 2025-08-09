@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useLocation } from "wouter";
 import { formatDuration, formatRating } from "@/lib/youtube";
-import { Documentary } from "@shared/schema";
+import { Documentary } from "@/types/schema";
 
 interface HeroBannerProps {
   documentary: Documentary;
@@ -35,7 +35,7 @@ export default function HeroBanner({ documentary }: HeroBannerProps) {
             hsla(var(--netflix-black), 0.8) 0%, 
             hsla(var(--netflix-black), 0.4) 50%, 
             transparent 100%), 
-            url('${documentary.thumbnail}')`
+            url('${documentary.thumbnailUrl}')`
         }}
       />
       
@@ -53,10 +53,10 @@ export default function HeroBanner({ documentary }: HeroBannerProps) {
             Featured
           </Badge>
           <span className="text-netflix-gray">
-            {formatDuration(documentary.duration)}
+            {formatDuration(documentary.duration ?? null)}
           </span>
           <span className="text-netflix-gray">
-            {new Date(documentary.publishedAt).getFullYear()}
+            {documentary.createdAt ? new Date(documentary.createdAt).getFullYear() : 'N/A'}
           </span>
         </div>
         

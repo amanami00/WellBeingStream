@@ -2,7 +2,7 @@ import { Play } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useLocation } from "wouter";
 import { formatDuration, formatRating } from "@/lib/youtube";
-import { Documentary } from "@shared/schema";
+import { Documentary } from "@/types/schema";
 
 interface DocumentaryCardProps {
   documentary: Documentary;
@@ -22,7 +22,7 @@ export default function DocumentaryCard({ documentary }: DocumentaryCardProps) {
     >
       <div className="relative bg-netflix-dark rounded-lg overflow-hidden aspect-video mb-3">
         <img 
-          src={documentary.thumbnail}
+          src={documentary.thumbnailUrl}
           alt={`${documentary.title} thumbnail`}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
           loading="lazy"
@@ -33,7 +33,7 @@ export default function DocumentaryCard({ documentary }: DocumentaryCardProps) {
         </div>
         
         <Badge className="absolute top-2 right-2 bg-netflix-red hover:bg-netflix-red text-white text-xs font-medium">
-          {formatDuration(documentary.duration)}
+          {formatDuration(documentary.duration ?? null)}
         </Badge>
         
         {documentary.featured && (
